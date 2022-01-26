@@ -184,6 +184,18 @@ EOF
       cp_wait
     fi
 
+    if systemctl is-enabled --quiet nm-cloud-setup.service; then
+      systemctl disable nm-cloud-setup.service
+      systemctl disable nm-cloud-setup.timer
+    fi
+
+    if systemctl is-enabled --quiet NetworkManager.service; then
+      cat <<EOF > "/etc/NetworkManager/conf.d/rke2-canal.conf"
+[keyfile]
+unmanaged-devices=interface-name:cali*;interface-name:flannel*
+EOF
+    fi
+
     systemctl enable rke2-server
     systemctl daemon-reload
     systemctl start rke2-server
