@@ -47,6 +47,19 @@ do_download() {
   get_installer
 
   case $ID in
+  sles)
+    zypper in -y unzip
+    install_awscli
+
+    # TODO: Determine minimum supported version, for now just carry on assuming ignorance
+    case $VERSION in
+    15*)
+      info "Identified SLES 15"
+      INSTALL_RKE2_METHOD='rpm' INSTALL_RKE2_TYPE="${type}" ./install.sh
+
+      ;;
+    esac
+    ;;
   centos)
     yum install -y unzip
     install_awscli
@@ -80,7 +93,7 @@ do_download() {
     8*)
       info "Identified RHEL 8"
 
-      INSTALL_RKE2_METHOD='yum' INSTALL_RKE2_TYPE="${type}" ./install.sh
+      INSTALL_RKE2_METHOD='dnf' INSTALL_RKE2_TYPE="${type}" ./install.sh
       ;;
     esac
 
