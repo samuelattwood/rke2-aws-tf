@@ -165,6 +165,20 @@ post_userdata() {
   config
   fetch_token
 
+  if systemctl is-enabled --quiet nm-cloud-setup.service; then
+    systemctl disable nm-cloud-setup.service
+    systemctl disable nm-cloud-setup.timer
+  fi
+
+  if systemctl is-enabled --quiet NetworkManager.service; then
+    cat <<EOF > "/etc/NetworkManager/conf.d/rke2-canal.conf"
+[keyfile]
+unmanaged-devices=interface-name:cali*;interface-name:flannel*
+EOF
+  systemctl reload NetworkManager
+  fi
+
+
   if [ $CCM = "true" ]; then
     append_config 'cloud-provider-name: "aws"'
   fi
@@ -182,18 +196,6 @@ EOF
       append_config 'server: https://${server_url}:9345'
       # Wait for cluster to exist, then init another server
       cp_wait
-    fi
-
-    if systemctl is-enabled --quiet nm-cloud-setup.service; then
-      systemctl disable nm-cloud-setup.service
-      systemctl disable nm-cloud-setup.timer
-    fi
-
-    if systemctl is-enabled --quiet NetworkManager.service; then
-      cat <<EOF > "/etc/NetworkManager/conf.d/rke2-canal.conf"
-[keyfile]
-unmanaged-devices=interface-name:cali*;interface-name:flannel*
-EOF
     fi
 
     systemctl enable rke2-server
