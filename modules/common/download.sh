@@ -55,7 +55,7 @@ do_download() {
     case $VERSION in
     15*)
       info "Identified SLES 15"
-      INSTALL_RKE2_METHOD='rpm' INSTALL_RKE2_TYPE="${type}" ./install.sh
+      INSTALL_RKE2_METHOD='tar' INSTALL_RKE2_TYPE="${type}" ./install.sh
 
       ;;
     esac
