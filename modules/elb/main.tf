@@ -33,6 +33,16 @@ resource "aws_security_group_rule" "supervisor" {
   cidr_blocks = var.cp_supervisor_ingress_cidr_blocks
 }
 
+resource "aws_security_group_rule" "http_ingress" {
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  security_group_id = aws_security_group.controlplane.id
+  type              = "ingress"
+
+  cidr_blocks = var.cp_supervisor_ingress_cidr_blocks
+}
+
 resource "aws_security_group_rule" "https_ingress" {
   from_port         = 443
   to_port           = 443

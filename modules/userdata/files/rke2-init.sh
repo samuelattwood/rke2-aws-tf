@@ -238,6 +238,8 @@ EOF
         deploy_wait
         helm install rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set hostname=${rancher_url} --set replicas=3
         deploy_wait
+        bootstrap_secret=`kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{.data.bootstrapPassword|base64decode}}{{"\n"}}'`
+        echo ${bootstrap_secret} | aws s3 cp - "s3://${token_bucket}/bootstrap_secret"
       fi
     fi
 

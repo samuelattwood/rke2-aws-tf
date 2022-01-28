@@ -123,6 +123,15 @@ resource "aws_security_group_rule" "server_cp_supervisor" {
   source_security_group_id = module.cp_lb.security_group
 }
 
+resource "aws_security_group_rule" "http_ingress" {
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.server.id
+  type                     = "ingress"
+  source_security_group_id = module.cp_lb.security_group
+}
+
 resource "aws_security_group_rule" "https_ingress" {
   from_port                = 443
   to_port                  = 443
