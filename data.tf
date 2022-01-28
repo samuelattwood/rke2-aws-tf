@@ -11,7 +11,7 @@ module "init" {
   agent                      = false
   install_rancher            = var.install_rancher
   rancher_url                = var.rancher_url
-  rancher_bootstrap_password = random_password.rancher_bootstrap_password
+  rancher_bootstrap_password = random_password.rancher_bootstrap_password.result
 }
 
 data "template_cloudinit_config" "this" {

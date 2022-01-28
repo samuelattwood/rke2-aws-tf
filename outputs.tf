@@ -52,3 +52,7 @@ output "iam_role_arn" {
 output "kubeconfig_path" {
   value = "s3://${module.statestore.bucket}/rke2.yaml"
 }
+
+output "rancher_bootstrap_password" {
+  value = random_password.rancher_bootstrap_password.result
+}
