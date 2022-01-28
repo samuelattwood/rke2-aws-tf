@@ -16,6 +16,11 @@ variable "rancher_url" {
   default     = ""
 }
 
+variable "rancher_bootstrap_password" {
+  description = "Rancher Bootstrap Password"
+  type        = string
+}
+
 variable "server_url" {
   description = "rke2 server url"
   type        = string

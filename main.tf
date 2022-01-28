@@ -35,6 +35,12 @@ resource "random_password" "token" {
   special = false
 }
 
+resource "random_password" "rancher_bootstrap_password" {
+  length           = 16
+  special          = true
+  override_special = "_%@"
+}
+
 module "statestore" {
   source = "./modules/statestore"
   name   = local.uname
