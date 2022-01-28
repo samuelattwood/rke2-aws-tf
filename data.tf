@@ -1,16 +1,16 @@
 module "init" {
   source = "./modules/userdata"
 
-  server_url    = module.cp_lb.dns
-  token_bucket  = module.statestore.bucket
-  token_object  = module.statestore.token_object
-  config        = var.rke2_config
-  pre_userdata  = var.pre_userdata
-  post_userdata = var.post_userdata
-  ccm           = var.enable_ccm
-  agent         = false
-  rancher       = var.install_rancher
-  rancher_url   = var.rancher_url
+  server_url      = module.cp_lb.dns
+  token_bucket    = module.statestore.bucket
+  token_object    = module.statestore.token_object
+  config          = var.rke2_config
+  pre_userdata    = var.pre_userdata
+  post_userdata   = var.post_userdata
+  ccm             = var.enable_ccm
+  agent           = false
+  install_rancher = var.install_rancher
+  rancher_url     = var.rancher_url
 }
 
 data "template_cloudinit_config" "this" {

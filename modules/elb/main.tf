@@ -33,6 +33,16 @@ resource "aws_security_group_rule" "supervisor" {
   cidr_blocks = var.cp_supervisor_ingress_cidr_blocks
 }
 
+resource "aws_security_group_rule" "https_ingress" {
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  security_group_id = aws_security_group.controlplane.id
+  type              = "ingress"
+
+  cidr_blocks = var.cp_supervisor_ingress_cidr_blocks
+}
+
 resource "aws_security_group_rule" "egress" {
   from_port         = "0"
   to_port           = "0"
@@ -63,6 +73,13 @@ resource "aws_elb" "controlplane" {
     instance_port     = var.cp_supervisor_port
     instance_protocol = "TCP"
     lb_port           = var.cp_supervisor_port
+    lb_protocol       = "TCP"
+  }
+
+  listener {
+    instance_port     = 443
+    instance_protocol = "TCP"
+    lb_port           = 443
     lb_protocol       = "TCP"
   }
 

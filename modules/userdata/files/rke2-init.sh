@@ -31,6 +31,16 @@ ${config}
 EOF
 }
 
+deploy_wait() {
+  while true; do
+    if kubectl get po -A |grep -v ^NAMESPACE |grep -v 'Running\|Completed'; then
+      sleep 10
+    else
+      break
+    fi
+  done
+}
+
 append_config() {
   echo "$1" >> "/etc/rancher/rke2/config.yaml"
 }
@@ -224,6 +234,7 @@ EOF
         helm repo update
         helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.7.0 --set installCRDs=true
         helm install rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set hostname=${rancher_url} --set replicas=3
+      fi
     fi
 
   else
