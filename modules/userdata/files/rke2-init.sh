@@ -34,6 +34,7 @@ EOF
 deploy_wait() {
   while true; do
     if kubectl get po -A |grep -v ^NAMESPACE |grep -v 'Running\|Completed'; then
+      echo "Waiting for all pods to enter running state..."
       sleep 10
     else
       break
@@ -232,8 +233,11 @@ EOF
         helm repo add jetstack https://charts.jetstack.io
         helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
         helm repo update
+        deploy_wait
         helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.7.0 --set installCRDs=true
+        deploy_wait
         helm install rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set hostname=${rancher_url} --set replicas=3
+        deploy_wait
       fi
     fi
 
