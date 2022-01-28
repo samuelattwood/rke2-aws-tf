@@ -19,6 +19,7 @@ variable "rancher_url" {
 variable "rancher_bootstrap_password" {
   description = "Rancher Bootstrap Password"
   type        = string
+  default     = ""
 }
 
 variable "server_url" {
