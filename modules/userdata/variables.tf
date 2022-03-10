@@ -4,6 +4,18 @@ variable "agent" {
   default     = true
 }
 
+variable "install_rancher" {
+  description = "Install Rancher to deployed cluster"
+  type        = bool
+  default     = false
+}
+
+variable "rancher_url" {
+  description = "Rancher Access URL"
+  type        = string
+  default     = ""
+}
+
 variable "server_url" {
   description = "rke2 server url"
   type        = string

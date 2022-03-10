@@ -162,3 +162,15 @@ variable "wait_for_capacity_timeout" {
   type        = string
   default     = "10m"
 }
+
+variable "install_rancher" {
+  description = "Install Rancher to deployed cluster"
+  type        = bool
+  default     = false
+}
+
+variable "rancher_url" {
+  description = "Rancher Access URL"
+  type        = string
+  default     = ""
+}

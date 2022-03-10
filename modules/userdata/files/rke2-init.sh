@@ -211,6 +211,19 @@ EOF
 
       # For servers, wait for apiserver to be ready before continuing so that `post_userdata` can operate on the cluster
       local_cp_api_wait
+
+      #Install Helm CLI
+      curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+      chmod +x get_helm.sh
+      ./get_helm.sh
+      rm -f get_helm.sh
+
+      if [ ${rancher} = "true" ]; then
+        helm repo add jetstack https://charts.jetstack.io
+        helm repo add rancher-latest https://releases.rancher.com/server-charts/latest
+        helm repo update
+        helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.7.0 --set installCRDs=true
+        helm install rancher rancher-latest/rancher --namespace cattle-system --create-namespace --set hostname=${rancher_url} --set replicas=3
     fi
 
   else

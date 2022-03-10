@@ -9,6 +9,8 @@ module "init" {
   post_userdata = var.post_userdata
   ccm           = var.enable_ccm
   agent         = false
+  rancher       = var.install_rancher
+  rancher_url   = var.rancher_url
 }
 
 data "template_cloudinit_config" "this" {
